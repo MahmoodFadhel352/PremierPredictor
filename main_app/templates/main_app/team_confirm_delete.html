@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Delete Team?</h2>
+<p>Are you sure you want to delete {{ object.name }}?</p>
+<form method="post">{% csrf_token %}
+  <button class="btn danger">Yes - Delete</button>
+  <a href="{% url 'team-detail' object.pk %}" class="btn secondary">Cancel</a>
+</form>
+{% endblock %}
