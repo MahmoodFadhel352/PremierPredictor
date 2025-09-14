@@ -20,5 +20,9 @@ PremierPredictor is a web application that allows users to **predict football ma
 - **Database:** SQLite (default) or PostgreSQL  
 
 ---
+
+
+# Wirefarme
+[WireFrame](https://excalidraw.com/#json=feE8KOHw6J5PpKaYZTpw3,bOAcUPDCYGuciMVVs24bkQ)
 # ERD 
 ![ERD Screenshot](ERD.png)
