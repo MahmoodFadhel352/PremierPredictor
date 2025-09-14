@@ -1,0 +1,50 @@
+# ---------------------
+# Python cache & build
+# ---------------------
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+*.egg
+*.egg-info/
+.eggs/
+build/
+dist/
+*.manifest
+*.spec
+
+# ---------------------
+# Django stuff
+# ---------------------
+*.log
+*.pot
+*.pyc
+db.sqlite3
+*.sqlite3
+/media/           # User-uploaded files
+/staticfiles/     # collectstatic output
+/local_settings.py
+
+# ---------------------
+# Pipenv
+# ---------------------
+Pipfile.lock
+
+# ---------------------
+# Environments
+# ---------------------
+.env
+.venv
+env/
+venv/
+
+# ---------------------
+# Editors & OS
+# ---------------------
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+.DS_Store
+Thumbs.db
