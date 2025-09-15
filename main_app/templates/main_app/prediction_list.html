@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block head %}
+<link rel="stylesheet" href="{% static 'css/predictions/predictions.css' %}">
+{% endblock %}
+{% block content %}
+<h1>Predictions</h1>
+<a href="{% url 'prediction-create' %}">+ Add Prediction</a>
+<ul>
+  {% for p in object_list %}
+    <li>
+      <a href="{% url 'prediction-detail' p.pk %}">
+        {{ p.match.home_team }} vs {{ p.match.away_team }}
+      </a>
+      — {% if p.user %}User Pick: {{ p.pick }}{% else %}Model: {{ p.model_key }}{% endif %}
+    </li>
+  {% empty %}
+    <p>No predictions yet.</p>
+  {% endfor %}
+</ul>
+{% endblock %}

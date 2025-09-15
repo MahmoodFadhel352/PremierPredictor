@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block head %}
+<link rel="stylesheet" href="{% static 'css/matches/match-index.css' %}">
+{% endblock %}
+{% block content %}
+<h1>Matches</h1>
+<a href="{% url 'match-create' %}">+ Add Match</a>
+<ul>
+  {% for m in object_list %}
+    <li>
+      <a href="{% url 'match-detail' m.pk %}">
+        {{ m.home_team }} vs {{ m.away_team }} ({{ m.kickoff_at|date:"Y-m-d H:i" }})
+      </a>
+    </li>
+  {% empty %}
+    <p>No matches yet.</p>
+  {% endfor %}
+</ul>
+{% endblock %}

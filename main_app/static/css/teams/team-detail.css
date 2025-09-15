@@ -1,0 +1,25 @@
+.team-container {
+  padding: 35px 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.team-details { width: 98%; }
+.team-actions { margin-top: 20px; }
+
+.match-prediction-container {
+  display: flex; flex-direction: column; align-items: center; padding-bottom: 20px;
+}
+.subsection-title { display: flex; align-items: center; margin-bottom: 12px; }
+.subsection-content { margin: 0 8px; }
+
+.prediction-table { width: calc(100% - 16px); border-collapse: collapse; margin: 0 8px; }
+.prediction-table th { border-bottom: var(--borders); padding: 5px; font-size: var(--font-l); }
+.prediction-table td { padding: 8px; font-size: var(--font-reg); }
+
+/* responsive tweaks */
+@media only screen and (min-width: 768px) {
+  .team-container { flex-direction: row; justify-content: start; }
+  .match-prediction-container { flex-direction: row; justify-content: space-around; }
+}

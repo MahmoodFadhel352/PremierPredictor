@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block head %}
+<link rel="stylesheet" href="{% static 'css/form.css' %}">
+{% endblock %}
+{% block content %}
+<h1>{{ view.object|yesno:"Edit Prediction,Add Prediction" }}</h1>
+<form method="post">{% csrf_token %}
+  <table>{{ form.as_table }}</table>
+  <button class="btn submit">Save</button>
+</form>
+{% endblock %}

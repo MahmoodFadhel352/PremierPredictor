@@ -1,0 +1,10 @@
+.card {
+  width: 224px; height: 224px;
+  margin: 25px; border: solid 2px;
+  box-shadow: var(--card-box-shadow);
+  position: relative;
+}
+.card-bg { opacity: 0.4; position: absolute; width: 100%; height: 100%; }
+.card-content { padding: 15px; display: flex; flex-direction: column; justify-content: flex-end; }
+.card h2 { font-size: var(--font-xl); margin: 7px 0; }
+.card p { font-size: var(--font-reg); margin: 0; }

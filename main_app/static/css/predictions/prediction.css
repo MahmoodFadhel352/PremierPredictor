@@ -1,0 +1,10 @@
+.prediction-list { padding: 20px; }
+.prediction-list li { margin: 8px 0; font-size: var(--font-reg); }
+
+.prediction-detail {
+  border: var(--borders);
+  padding: 15px;
+  border-radius: var(--card-border-radius);
+  box-shadow: var(--card-box-shadow);
+}
+.prediction-detail h2 { font-size: var(--font-xl); }
