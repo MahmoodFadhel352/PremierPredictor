@@ -4,23 +4,48 @@
 <link rel="stylesheet" href="{% static 'css/matches/match-detail.css' %}">
 {% endblock %}
 {% block content %}
-<h2>{{ object.home_team }} vs {{ object.away_team }}</h2>
+<h2>{{ object.home_team.name }} vs {{ object.away_team.name }}</h2>
 <p>Date: {{ object.kickoff_at|date:"Y-m-d H:i" }}</p>
 <p>Status: {{ object.status }}</p>
 {% if object.home_score != None and object.away_score != None %}
-<p>Score: {{ object.home_score }} - {{ object.away_score }}</p>
+  <p>Score: {{ object.home_score }} - {{ object.away_score }}</p>
 {% endif %}
-<a href="{% url 'match-update' object.pk %}" class="btn warn">Edit</a>
-<a href="{% url 'match-delete' object.pk %}" class="btn danger">Delete</a>
 
-<hr/>
+<p>
+  <a href="{% url 'match-update' object.pk %}" class="btn warn">Edit</a>
+  <a href="{% url 'match-delete' object.pk %}" class="btn danger">Delete</a>
+</p>
+
+<hr />
 <h3>Predictions</h3>
-<ul>
-  {% for p in object.predictions.all %}
-    <li>{{ p.user.username|default:p.model_key }} → {{ p.pick|default:"system" }}</li>
-  {% empty %}
-    <p>No predictions yet.</p>
-  {% endfor %}
-</ul>
-<a href="{% url 'prediction-create' %}">+ Add Prediction</a>
+<p><a href="{% url 'prediction-create' %}" class="btn submit">+ Add Prediction</a></p>
+
+{% if object.predictions.exists %}
+  <table class="prediction-table">
+    <thead>
+      <tr>
+        <th>Who</th>
+        <th>Pick</th>
+        <th>P(Home)</th>
+        <th>P(Draw)</th>
+        <th>P(Away)</th>
+        <th>Points</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for p in object.predictions.all %}
+        <tr>
+          <td>{{ p.user.username|default:"—" }}</td>
+          <td>{{ p.get_pick_display }}</td>
+          <td>{{ p.p_home|default:"—" }}</td>
+          <td>{{ p.p_draw|default:"—" }}</td>
+          <td>{{ p.p_away|default:"—" }}</td>
+          <td>{{ p.result_points|default:"—" }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% else %}
+  <p>No predictions yet.</p>
+{% endif %}
 {% endblock %}

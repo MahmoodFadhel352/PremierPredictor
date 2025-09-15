@@ -6,6 +6,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView
 from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm
+from .forms import MatchForm, PredictionForm
 
 from .models import Team, Match, Prediction
 # Create your views here.
@@ -33,61 +34,74 @@ def about(request):
 # Teams
 class TeamList(LoginRequiredMixin, ListView):
     model = Team
+    template_name = "teams/index.html"
+
 
 class TeamDetail(LoginRequiredMixin, DetailView):
     model = Team
-
+    template_name = "teams/detail.html"
 class TeamCreate(LoginRequiredMixin, CreateView):
     model = Team
     fields = ['name', 'short_code', 'founded_year', 'logo']
-
+    template_name = "main_app/team_form.html"
 class TeamUpdate(LoginRequiredMixin, UpdateView):
     model = Team
     fields = ['name', 'short_code', 'founded_year', 'logo']
+    template_name = "main_app/team_form.html"
 
 class TeamDelete(LoginRequiredMixin, DeleteView):
     model = Team
     success_url = '/teams/'
+    template_name = "main_app/team_confirm_delete.html"
 
 
 # Matches
 class MatchList(LoginRequiredMixin, ListView):
     model = Match
+    template_name = "main_app/match_list.html"
 
 class MatchDetail(LoginRequiredMixin, DetailView):
     model = Match
+    template_name = "main_app/match_detail.html"
 
 class MatchCreate(LoginRequiredMixin, CreateView):
     model = Match
-    fields = ['home_team', 'away_team', 'kickoff_at', 'venue', 'status']
+    form_class = MatchForm
+    template_name = "main_app/match_form.html"
 
 class MatchUpdate(LoginRequiredMixin, UpdateView):
     model = Match
-    fields = ['home_score', 'away_score', 'status', 'venue', 'kickoff_at']
+    form_class = MatchForm
+    template_name = "main_app/match_form.html"
 
 class MatchDelete(LoginRequiredMixin, DeleteView):
     model = Match
     success_url = '/matches/'
-
+    template_name = "main_app/match_confirm_delete.html"
 
 # Predictions
 class PredictionList(LoginRequiredMixin, ListView):
     model = Prediction
+    template_name = "main_app/prediction_list.html"
 
 class PredictionDetail(LoginRequiredMixin, DetailView):
     model = Prediction
+    template_name = "main_app/prediction_detail.html"
 
 class PredictionCreate(LoginRequiredMixin, CreateView):
     model = Prediction
-    fields = ['match', 'pick', 'stake', 'model_key', 'p_home', 'p_draw', 'p_away']
+    form_class = PredictionForm
+    template_name = "main_app/prediction_form.html"
     def form_valid(self, form):
         form.instance.user = self.request.user
         return super().form_valid(form)
 
 class PredictionUpdate(LoginRequiredMixin, UpdateView):
     model = Prediction
-    fields = ['pick', 'stake']
+    form_class = PredictionForm
+    template_name = "main_app/prediction_form.html"
 
 class PredictionDelete(LoginRequiredMixin, DeleteView):
     model = Prediction
     success_url = '/predictions/'
+    template_name = "main_app/prediction_confirm_delete.html"

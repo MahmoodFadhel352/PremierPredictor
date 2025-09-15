@@ -1,11 +1,12 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block head %}
-<link rel="stylesheet" href="{% static 'css/teams/team-index.css' %}" />
+<link rel="stylesheet" href="{% static 'css/teams/team-index.css' %}">
 {% endblock %}
 {% block content %}
 <section class="page-header">
   <h1>Teams</h1>
+  <a href="{% url 'team-create' %}" class="btn submit">+ Add Team</a>
 </section>
 
 <section class="card-container">
@@ -26,7 +27,7 @@
       </a>
     </div>
   {% empty %}
-    <p>No teams yet.</p>
+    <p>No teams yet. <a href="{% url 'team-create' %}" class="btn submit">Add the first team</a></p>
   {% endfor %}
 </section>
 {% endblock %}

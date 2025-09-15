@@ -43,6 +43,9 @@ class Match(models.Model):
 
     def __str__(self):
         return f"{self.home_team} vs {self.away_team} @ {self.kickoff_at:%Y-%m-%d %H:%M}"
+    
+    def get_absolute_url(self):
+        return reverse('match-detail', kwargs={'pk': self.pk})
 
     @property
     def outcome(self):
@@ -56,27 +59,29 @@ class Match(models.Model):
 
 
 class Prediction(models.Model):
-    PICK = [("HOME", "Home"), ("DRAW", "Draw"), ("AWAY", "Away")]
+    PICK = [("HOME", "Home win"), ("DRAW", "Draw"), ("AWAY", "Away win")]
 
     match = models.ForeignKey(Match, on_delete=models.CASCADE, related_name="predictions")
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
 
-    # system prediction fields
-    model_key = models.CharField(max_length=80, blank=True)
+    # user-friendly fields (no stake, no model_key)
+    pick = models.CharField(max_length=5, choices=PICK)
+
+    # optional probabilities (0–1). If provided, should ~sum to 1.0
     p_home = models.FloatField(null=True, blank=True)
     p_draw = models.FloatField(null=True, blank=True)
     p_away = models.FloatField(null=True, blank=True)
 
-    # user pick fields
-    pick = models.CharField(max_length=5, choices=PICK, null=True, blank=True)
-    stake = models.FloatField(default=1.0)
     result_points = models.FloatField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
-        indexes = [models.Index(fields=["match", "user", "model_key"])]
+        unique_together = [("user", "match")]     # one pick per user per match
+        indexes = [models.Index(fields=["match", "user"])]
 
     def __str__(self):
-        if self.user:
-            return f"{self.user.username}'s pick on {self.match}"
-        return f"System {self.model_key} prediction for {self.match}"
+        who = self.user.username if self.user else "Anonymous"
+        return f"{who}: {self.pick} on {self.match}"
+
+    def get_absolute_url(self):
+        return reverse('prediction-detail', kwargs={'pk': self.pk})

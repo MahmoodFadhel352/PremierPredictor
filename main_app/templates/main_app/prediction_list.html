@@ -4,15 +4,20 @@
 <link rel="stylesheet" href="{% static 'css/predictions/predictions.css' %}">
 {% endblock %}
 {% block content %}
-<h1>Predictions</h1>
-<a href="{% url 'prediction-create' %}">+ Add Prediction</a>
-<ul>
+<section class="page-header">
+  <h1>Predictions</h1>
+  <a href="{% url 'prediction-create' %}" class="btn submit">+ New Prediction</a>
+</section>
+<ul class="prediction-list">
   {% for p in object_list %}
     <li>
       <a href="{% url 'prediction-detail' p.pk %}">
-        {{ p.match.home_team }} vs {{ p.match.away_team }}
+        {{ p.match.home_team.name }} vs {{ p.match.away_team.name }}
       </a>
-      — {% if p.user %}User Pick: {{ p.pick }}{% else %}Model: {{ p.model_key }}{% endif %}
+      — Pick: {{ p.get_pick_display }}
+      {% if p.p_home or p.p_draw or p.p_away %}
+        (H/D/A: {{ p.p_home|default:"—" }}/{{ p.p_draw|default:"—" }}/{{ p.p_away|default:"—" }})
+      {% endif %}
     </li>
   {% empty %}
     <p>No predictions yet.</p>

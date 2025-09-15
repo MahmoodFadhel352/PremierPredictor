@@ -4,16 +4,20 @@
 <link rel="stylesheet" href="{% static 'css/predictions/predictions.css' %}">
 {% endblock %}
 {% block content %}
-<h2>Prediction</h2>
-<p><strong>Match:</strong> {{ object.match.home_team }} vs {{ object.match.away_team }}</p>
-{% if object.user %}
-  <p>User: {{ object.user.username }}</p>
-  <p>Pick: {{ object.pick }}</p>
-{% else %}
-  <p>Model: {{ object.model_key }}</p>
-  <p>Probs: H={{ object.p_home }} D={{ object.p_draw }} A={{ object.p_away }}</p>
-{% endif %}
-<p>Result Points: {{ object.result_points|default:"—" }}</p>
-<a href="{% url 'prediction-update' object.pk %}">Edit</a>
-<a href="{% url 'prediction-delete' object.pk %}">Delete</a>
+<div class="prediction-detail">
+  <h2>Prediction</h2>
+  <p><strong>Match:</strong> {{ object.match.home_team.name }} vs {{ object.match.away_team.name }}</p>
+  <p><strong>Your pick:</strong> {{ object.get_pick_display }}</p>
+
+  {% if object.p_home or object.p_draw or object.p_away %}
+  <p><strong>Probabilities</strong> (H/D/A): {{ object.p_home|default:"—" }} / {{ object.p_draw|default:"—" }} / {{ object.p_away|default:"—" }}</p>
+  {% endif %}
+
+  <p><strong>Result points:</strong> {{ object.result_points|default:"—" }}</p>
+
+  <p>
+    <a href="{% url 'prediction-update' object.pk %}" class="btn warn">Edit</a>
+    <a href="{% url 'prediction-delete' object.pk %}" class="btn danger">Delete</a>
+  </p>
+</div>
 {% endblock %}
