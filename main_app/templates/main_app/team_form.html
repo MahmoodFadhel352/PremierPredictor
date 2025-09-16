@@ -1,18 +1,72 @@
 {% extends 'base.html' %}
 {% load static %}
+
 {% block head %}
-<link rel="stylesheet" href="{% static 'css/form.css' %}" />
+<link rel="stylesheet" href="{% static 'css/form.css' %}">
+<link rel="stylesheet" href="{% static 'css/teams.css' %}">
 {% endblock %}
+
 {% block content %}
-  <div class="page-header">
-    <h1>{{ view.object|yesno:"Edit Team,Add Team" }}</h1>
+<div class="page-header">
+  {% if object %}<h1>Edit {{ object.name }}</h1>{% else %}<h1>Add Team</h1>{% endif %}
+</div>
+
+<form method="post" enctype="multipart/form-data" class="form-container">
+  {% csrf_token %}
+
+  <!-- Name -->
+  <div class="form-row">
+    <label for="{{ form.name.id_for_label }}">Name:</label>
+    {{ form.name }}
+    {% for e in form.name.errors %}<div class="auth-errors">{{ e }}</div>{% endfor %}
   </div>
 
-  <form method="post" enctype="multipart/form-data" class="form-container">
-    {% csrf_token %}
-    <table>
-      {{ form.as_table }}
-    </table>
-    <button type="submit" class="btn submit">Save</button>
-  </form>
+  <!-- Short code -->
+  <div class="form-row">
+    <label for="{{ form.short_code.id_for_label }}">Short code:</label>
+    {{ form.short_code }}
+    {% for e in form.short_code.errors %}<div class="auth-errors">{{ e }}</div>{% endfor %}
+  </div>
+
+  <!-- Founded year -->
+  <div class="form-row">
+    <label for="{{ form.founded_year.id_for_label }}">Founded year:</label>
+    {{ form.founded_year }}
+    {% for e in form.founded_year.errors %}<div class="auth-errors">{{ e }}</div>{% endfor %}
+  </div>
+
+  <!-- Logo block -->
+  <div class="form-row">
+    <label>Logo:</label>
+
+    {% if form.instance.pk and form.instance.logo %}
+      <div class="logo-group">
+        <div class="logo-preview">
+          <img src="{{ form.instance.logo.url }}" alt="{{ form.instance.name }} logo" class="team-logo-preview">
+        </div>
+        <div class="logo-actions">
+          <label class="checkbox-inline">
+            <input type="checkbox" name="logo-clear" id="logo-clear">
+            Remove current logo
+          </label>
+
+          <div class="upload-block">
+            <label for="{{ form.logo.id_for_label }}" class="upload-label">Replace logo</label>
+            {{ form.logo }}
+            <div class="hint">SVG/PNG/JPG • up to 2MB</div>
+          </div>
+        </div>
+      </div>
+    {% else %}
+      <div class="upload-block">
+        {{ form.logo }}
+        <div class="hint">SVG/PNG/JPG • up to 2MB</div>
+      </div>
+    {% endif %}
+
+    {% for e in form.logo.errors %}<div class="auth-errors">{{ e }}</div>{% endfor %}
+  </div>
+
+  <button type="submit" class="btn submit">Save</button>
+</form>
 {% endblock %}

@@ -6,7 +6,8 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView
 from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm
-from .forms import MatchForm, PredictionForm
+from .forms import MatchForm, PredictionForm, TeamForm
+from django.db import IntegrityError
 
 from .models import Team, Match, Prediction
 # Create your views here.
@@ -37,24 +38,31 @@ def about(request):
 class TeamList(LoginRequiredMixin, ListView):
     model = Team
     template_name = "teams/index.html"
-
+    queryset = Team.objects.order_by('name')
 
 class TeamDetail(LoginRequiredMixin, DetailView):
     model = Team
     template_name = "teams/detail.html"
 class TeamCreate(LoginRequiredMixin, CreateView):
     model = Team
-    fields = ['name', 'short_code', 'founded_year', 'logo']
+    form_class = TeamForm 
     template_name = "main_app/team_form.html"
     def form_valid(self, form):
         form.instance.created_by = self.request.user
         return super().form_valid(form)
 class TeamUpdate(LoginRequiredMixin, UpdateView):
     model = Team
-    fields = ['name', 'short_code', 'founded_year', 'logo']
+    form_class = TeamForm
     template_name = "main_app/team_form.html"
     def get_queryset(self):
         return Team.objects.filter(created_by=self.request.user)
+    def form_valid(self, form):
+        # If the “Remove logo” was checked, drop the file
+        if self.request.POST.get("logo-clear"):
+            if form.instance.logo:
+                form.instance.logo.delete(save=False)
+            form.instance.logo = None
+        return super().form_valid(form)
 
 class TeamDelete(LoginRequiredMixin, DeleteView):
     model = Team
@@ -68,6 +76,7 @@ class TeamDelete(LoginRequiredMixin, DeleteView):
 class MatchList(LoginRequiredMixin, ListView):
     model = Match
     template_name = "main_app/match_list.html"
+    queryset = Match.objects.select_related('home_team', 'away_team', 'created_by').order_by('-kickoff_at')
 
 class MatchDetail(LoginRequiredMixin, DetailView):
     model = Match
@@ -99,6 +108,7 @@ class MatchDelete(LoginRequiredMixin, DeleteView):
 class PredictionList(LoginRequiredMixin, ListView):
     model = Prediction
     template_name = "main_app/prediction_list.html"
+    queryset = Prediction.objects.select_related('match', 'user', 'match__home_team', 'match__away_team').order_by('-created_at')
 
 class PredictionDetail(LoginRequiredMixin, DetailView):
     model = Prediction
@@ -108,9 +118,17 @@ class PredictionCreate(LoginRequiredMixin, CreateView):
     model = Prediction
     form_class = PredictionForm
     template_name = "main_app/prediction_form.html"
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs["user"] = self.request.user
+        return kwargs
     def form_valid(self, form):
         form.instance.user = self.request.user
-        return super().form_valid(form)
+        try:
+            return super().form_valid(form)
+        except IntegrityError:
+            form.add_error(None, "You already have a prediction for this match. Please edit the existing one.")
+            return self.form_invalid(form)
 
 class PredictionUpdate(LoginRequiredMixin, UpdateView):
     model = Prediction
@@ -119,6 +137,10 @@ class PredictionUpdate(LoginRequiredMixin, UpdateView):
     def get_queryset(self):
         # only edit your own prediction
         return Prediction.objects.filter(user=self.request.user)
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs["user"] = self.request.user
+        return kwargs
 
 class PredictionDelete(LoginRequiredMixin, DeleteView):
     model = Prediction

@@ -1,6 +1,24 @@
 from django import forms
+from django.core.exceptions import ValidationError
 from .models import Match
-from .models import Prediction
+from .models import Prediction, Team
+class TeamForm(forms.ModelForm):
+    class Meta:
+        model = Team
+        fields = ["name", "short_code", "founded_year", "logo"]
+        widgets = {
+            # Use FileInput so Django doesn't render the "Currently / Clear / Change" block
+            "logo": forms.FileInput(attrs={
+                "accept": ".svg,.png,.jpg,.jpeg",
+                "class": "file-input"
+            }),
+        }
+        labels = {
+            "name": "Name",
+            "short_code": "Short code",
+            "founded_year": "Founded year",
+            "logo": "Logo",
+        }
 class MatchForm(forms.ModelForm):
     class Meta:
         model = Match
@@ -39,10 +57,17 @@ class PredictionForm(forms.ModelForm):
             "p_away": "Optional. Use a number between 0 and 1.",
         }
 
+    def __init__(self, *args, **kwargs):
+        # grab user passed from the view
+        self.user = kwargs.pop("user", None)
+        super().__init__(*args, **kwargs)
+
     def clean(self):
         cleaned = super().clean()
         ph, pd, pa = cleaned.get("p_home"), cleaned.get("p_draw"), cleaned.get("p_away")
-        # If any probs provided, validate sum ~ 1.0
+        match = cleaned.get("match")
+
+        #Probability validation
         provided = [v for v in (ph, pd, pa) if v is not None]
         if provided:
             if any(v < 0 or v > 1 for v in provided):
@@ -50,4 +75,13 @@ class PredictionForm(forms.ModelForm):
             total = (ph or 0) + (pd or 0) + (pa or 0)
             if abs(total - 1.0) > 0.05:  # 5% tolerance
                 raise forms.ValidationError("Probabilities should add up to ~1.0 (±0.05).")
+
+        #Prevent duplicate predictions by same user for same match
+        if self.user and match:
+            qs = Prediction.objects.filter(user=self.user, match=match)
+            if self.instance.pk:
+                qs = qs.exclude(pk=self.instance.pk)
+            if qs.exists():
+                raise ValidationError("You already have a prediction for this match. Please edit it instead.")
+
         return cleaned

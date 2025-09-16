@@ -1,0 +1,71 @@
+/* Team form improvements */
+.form-row {
+  margin-bottom: 18px;
+}
+
+.form-row > label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 800;
+  color: #efeaff;
+  font-size: 1.05rem;
+}
+
+.logo-group {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  background: #0f0b22;
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 14px;
+  padding: 14px;
+}
+
+.logo-preview {
+  flex: 0 0 auto;
+}
+
+.team-logo-preview {
+  width: 120px;
+  height: 120px;
+  object-fit: contain;
+  background: #120c26;
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 12px;
+  padding: 10px;
+}
+
+.logo-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.checkbox-inline {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: #d9d4f3;
+}
+
+.upload-block .upload-label {
+  display: block;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+.upload-block input[type="file"] {
+  display: block;
+  width: 100%;
+  background: #0f0b22;
+  color: #dfe0ff;
+  border: 1px solid rgba(255,255,255,0.18);
+  border-radius: 10px;
+  padding: 10px;
+}
+
+.upload-block .hint {
+  margin-top: 6px;
+  color: #bdb6e9;
+  font-size: 0.95rem;
+}
