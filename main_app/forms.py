@@ -58,9 +58,13 @@ class PredictionForm(forms.ModelForm):
         }
 
     def __init__(self, *args, **kwargs):
-        # grab user passed from the view
         self.user = kwargs.pop("user", None)
         super().__init__(*args, **kwargs)
+
+        if "pick" in self.fields:
+            choices = list(self.fields["pick"].choices)
+            if choices and choices[0][0] in ("", None):  # first one is the blank
+                self.fields["pick"].choices = choices[1:]
 
     def clean(self):
         cleaned = super().clean()
