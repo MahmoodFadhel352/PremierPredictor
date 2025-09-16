@@ -13,14 +13,19 @@
     {% endif %}
   </div>
   <div>
-    <h2>{{ object.name }}</h2>
-    <p><strong>Short code:</strong> {{ object.short_code|default:"—" }}</p>
-    <p><strong>Founded:</strong> {{ object.founded_year|default:"—" }}</p>
+  <h2>{{ object.name }}</h2>
+  <p><strong>Short code:</strong> {{ object.short_code|default:"—" }}</p>
+  <p><strong>Founded:</strong> {{ object.founded_year|default:"—" }}</p>
+  <p class="byline">
+      by {{ object.created_by.username|default:"Unknown" }}
+  </p>
 
+  {% if object.created_by_id == user.id or user.is_staff %}
     <p>
       <a href="{% url 'team-update' object.pk %}" class="btn warn">Edit</a>
       <a href="{% url 'team-delete' object.pk %}" class="btn danger">Delete</a>
     </p>
+  {% endif %}
   </div>
 </div>
 {% endblock %}

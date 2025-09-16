@@ -13,6 +13,9 @@
         {{ m.home_team }} vs {{ m.away_team }} ({{ m.kickoff_at|date:"Y-m-d H:i" }})
       </a>
     </li>
+    <p class="byline">
+      by {{ m.created_by.username|default:"Unknown" }}
+    </p>
   {% empty %}
     <p>No matches yet.</p>
   {% endfor %}

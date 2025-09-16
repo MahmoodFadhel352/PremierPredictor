@@ -23,6 +23,9 @@
           </div>
           <h2 class="card-title">{{ team.name }}</h2>
           <p><small>Founded: {{ team.founded_year|default:"N/A" }}</small></p>
+          <p class="byline">
+              by {{ team.created_by.username|default:"Unknown" }}
+          </p>
         </div>
       </a>
     </div>

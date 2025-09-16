@@ -21,8 +21,7 @@ dist/
 *.pot
 *.pyc
 db.sqlite3
-*.sqlite3
-/media/           # User-uploaded files
+media/       # User-uploaded files
 /staticfiles/     # collectstatic output
 /local_settings.py
 

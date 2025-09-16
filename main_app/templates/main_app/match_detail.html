@@ -10,11 +10,15 @@
 {% if object.home_score != None and object.away_score != None %}
   <p>Score: {{ object.home_score }} - {{ object.away_score }}</p>
 {% endif %}
-
-<p>
-  <a href="{% url 'match-update' object.pk %}" class="btn warn">Edit</a>
-  <a href="{% url 'match-delete' object.pk %}" class="btn danger">Delete</a>
+<p class="byline">
+  by {{ object.created_by.username|default:"Unknown" }}
 </p>
+{% if object.created_by_id == user.id or user.is_staff %}
+  <p>
+    <a href="{% url 'match-update' object.pk %}" class="btn warn">Edit</a>
+    <a href="{% url 'match-delete' object.pk %}" class="btn danger">Delete</a>
+  </p>
+{% endif %}
 
 <hr />
 <h3>Predictions</h3>

@@ -18,6 +18,9 @@
       {% if p.p_home or p.p_draw or p.p_away %}
         (H/D/A: {{ p.p_home|default:"—" }}/{{ p.p_draw|default:"—" }}/{{ p.p_away|default:"—" }})
       {% endif %}
+      <span class="byline">
+          by {{ p.user.username|default:"Unknown" }}
+      </span>
     </li>
   {% empty %}
     <p>No predictions yet.</p>

@@ -7,6 +7,9 @@ class Team(models.Model):
     short_code = models.CharField(max_length=10, blank=True)
     founded_year = models.PositiveIntegerField(null=True, blank=True)
     logo = models.ImageField(upload_to="images/teams/", blank=True, null=True)
+    created_by = models.ForeignKey(
+        User, null=True, blank=True, on_delete=models.SET_NULL, related_name="teams_created"
+    )
 
     def __str__(self):
         return self.name
@@ -30,6 +33,9 @@ class Match(models.Model):
     status = models.CharField(max_length=12, choices=STATUS, default="SCHEDULED")
     home_score = models.PositiveIntegerField(null=True, blank=True)
     away_score = models.PositiveIntegerField(null=True, blank=True)
+    created_by = models.ForeignKey(
+        User, null=True, blank=True, on_delete=models.SET_NULL, related_name="matches_created"
+    )
 
     class Meta:
         constraints = [
