@@ -1,16 +1,70 @@
 {% extends 'base.html' %}
 {% load static %}
+
 {% block head %}
-<link rel="stylesheet" href="{% static 'css/form.css' %}" />
+<link rel="stylesheet" href="{% static 'css/auth.css' %}">
 {% endblock %}
+
 {% block content %}
-<div class="page-header">
+<section class="page-header">
   <h1>Sign Up</h1>
+</section>
+
+<div class="auth-wrap">
+  <div class="auth-card">
+    <form action="" method="post" novalidate>
+      {% csrf_token %}
+
+      {% if form.non_field_errors %}
+        <div class="auth-errors">
+          {% for e in form.non_field_errors %} <div>{{ e }}</div> {% endfor %}
+        </div>
+      {% endif %}
+
+      <!-- Username -->
+      <div class="auth-field">
+        <label for="{{ form.username.id_for_label }}">Username</label>
+        {{ form.username }}
+        {% if form.username.errors %}
+          <div class="auth-errors">
+            {% for e in form.username.errors %}<div>{{ e }}</div>{% endfor %}
+          </div>
+        {% endif %}
+        {% if form.username.help_text %}
+          <div class="auth-help">{{ form.username.help_text|safe }}</div>
+        {% endif %}
+      </div>
+
+      <!-- Password -->
+      <div class="auth-field">
+        <label for="{{ form.password1.id_for_label }}">Password</label>
+        {{ form.password1 }}
+        {% if form.password1.errors %}
+          <div class="auth-errors">
+            {% for e in form.password1.errors %}<div>{{ e }}</div>{% endfor %}
+          </div>
+        {% endif %}
+        {% if form.password1.help_text %}
+          <div class="auth-help">{{ form.password1.help_text|safe }}</div>
+        {% endif %}
+      </div>
+
+      <!-- Confirm Password -->
+      <div class="auth-field">
+        <label for="{{ form.password2.id_for_label }}">Confirm password</label>
+        {{ form.password2 }}
+        {% if form.password2.errors %}
+          <div class="auth-errors">
+            {% for e in form.password2.errors %}<div>{{ e }}</div>{% endfor %}
+          </div>
+        {% endif %}
+        {% if form.password2.help_text %}
+          <div class="auth-help">{{ form.password2.help_text|safe }}</div>
+        {% endif %}
+      </div>
+
+      <button type="submit" class="btn submit auth-submit">Create account</button>
+    </form>
+  </div>
 </div>
-{% if error_message %}<p class="red-text">{{ error_message }}</p>{% endif %}
-<form action="" method="post" class="form-container" autocomplete="off">
-  {% csrf_token %}
-  <table>{{ form.as_table }}</table>
-  <button type="submit" class="btn submit">Submit!</button>
-</form>
 {% endblock %}

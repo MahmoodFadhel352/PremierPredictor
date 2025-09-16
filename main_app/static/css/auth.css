@@ -1,0 +1,72 @@
+/* Auth / signup layout */
+.auth-wrap {
+  max-width: 900px;
+  margin: 0 auto 40px;
+  padding: 0 12px;
+}
+
+.auth-card {
+  background: #1b1733;
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 18px;
+  box-shadow: var(--card-box-shadow);
+  padding: 24px;
+}
+
+/* Fields */
+.auth-field { margin-bottom: 20px; }
+
+.auth-field label {
+  display: block;
+  font-weight: 800;
+  color: #efeaff;
+  margin-bottom: 8px;
+  font-size: 1.1rem;       /* larger label */
+}
+
+.auth-field input[type="text"],
+.auth-field input[type="password"],
+.auth-field input[type="email"] {
+  width: 100%;
+  background: #0f0b22;
+  color: #ffffff;
+  border: 1px solid rgba(255,255,255,0.18);
+  border-radius: 12px;
+  padding: 14px 12px;
+  font-size: 1.05rem;      /* readable input text */
+  outline: none;
+}
+
+.auth-field input:focus {
+  border-color: #7a2bff;
+  box-shadow: 0 0 0 3px rgba(122,43,255,0.25);
+}
+
+/* Help text (Django's ul list) */
+.auth-help {
+  margin-top: 8px;
+  color: #cfc9ef;
+  font-size: 0.98rem;
+  line-height: 1.55;
+}
+
+.auth-help ul { margin: 6px 0 0 18px; }
+.auth-help li { margin: 4px 0; }
+
+/* Errors */
+.auth-errors {
+  margin-top: 8px;
+  background: rgba(220,20,60,0.12);
+  border: 1px solid rgba(220,20,60,0.5);
+  color: #ffd9df;
+  padding: 10px 12px;
+  border-radius: 10px;
+  font-size: 0.98rem;
+}
+
+/* Submit button */
+.auth-submit {
+  margin-top: 8px;
+  font-size: 1.05rem;
+  padding: 12px 18px;
+}

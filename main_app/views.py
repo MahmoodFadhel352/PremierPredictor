@@ -25,6 +25,8 @@ def signup(request):
         else:
             error_message = 'Invalid sign up - try again'
     form = UserCreationForm()
+    for field in form.fields.values():
+        field.widget.attrs.update({'placeholder': field.label})
     return render(request, 'signup.html', {'form': form, 'error_message': error_message})
 
 def about(request):
