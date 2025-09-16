@@ -16,8 +16,6 @@
         by {{ object.user.username|default:"Unknown" }}
   </p>
 
-  <p><strong>Result points:</strong> {{ object.result_points|default:"—" }}</p>
-
   {% if object.user_id == user.id or user.is_staff %}
   <p>
     <a href="{% url 'prediction-update' object.pk %}" class="btn warn">Edit</a>

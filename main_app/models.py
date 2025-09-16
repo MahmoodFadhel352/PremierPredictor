@@ -77,8 +77,6 @@ class Prediction(models.Model):
     p_home = models.FloatField(null=True, blank=True)
     p_draw = models.FloatField(null=True, blank=True)
     p_away = models.FloatField(null=True, blank=True)
-
-    result_points = models.FloatField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:

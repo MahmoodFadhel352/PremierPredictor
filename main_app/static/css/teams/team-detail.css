@@ -1,25 +1,12 @@
-.team-container {
-  padding: 35px 30px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+/* Team detail page */
+.team-hero{
+  display:flex; gap:22px; flex-wrap:wrap; align-items:center;
+  background:#fff; color:var(--ink); border:1px solid var(--border);
+  border-radius:16px; padding:20px; box-shadow:var(--shadow);
 }
-
-.team-details { width: 98%; }
-.team-actions { margin-top: 20px; }
-
-.match-prediction-container {
-  display: flex; flex-direction: column; align-items: center; padding-bottom: 20px;
+.team-hero .logo{
+  width:160px; height:160px; display:flex; align-items:center; justify-content:center;
+  border:1px dashed #ddd; border-radius:14px; background:#faf9ff;
 }
-.subsection-title { display: flex; align-items: center; margin-bottom: 12px; }
-.subsection-content { margin: 0 8px; }
-
-.prediction-table { width: calc(100% - 16px); border-collapse: collapse; margin: 0 8px; }
-.prediction-table th { border-bottom: var(--borders); padding: 5px; font-size: var(--font-l); }
-.prediction-table td { padding: 8px; font-size: var(--font-reg); }
-
-/* responsive tweaks */
-@media only screen and (min-width: 768px) {
-  .team-container { flex-direction: row; justify-content: start; }
-  .match-prediction-container { flex-direction: row; justify-content: space-around; }
-}
+.team-hero h2{ font-size:2.6rem; margin:0 0 6px; color:var(--pl-purple-dark); }
+.team-hero p{ margin:6px 0; color:#4a3c70; }

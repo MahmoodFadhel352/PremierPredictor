@@ -1,13 +1,14 @@
-.form-container {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
+/* Create/Update forms */
+.form-container{
+  background:#141129; color:#fff; border-radius:18px; padding:26px;
+  border:1px solid rgba(255,255,255,.12); box-shadow:var(--shadow);
 }
-
-table { padding: 0 40px; width: 100%; border-spacing: 0 20px; }
-th { text-align: left; padding: 6px 20px 0 0; font-size: var(--font-reg); }
-td { max-width: 60%; }
-td > * { width: 100%; padding: 2px 4px; font-size: var(--font-l); }
-td > textarea { height: calc(4 * var(--font-l) + 8px); font-family: inherit; }
-
-.btn { align-self: flex-end; margin-right: 40px; }
+table{ width:100%; border-spacing:0 18px; }
+th{ width:240px; font-weight:800; color:#efeaff; font-size:1.9rem; padding-right:10px; vertical-align:top; }
+td>*{
+  width:100%; font-size:1.85rem; padding:12px 14px; border:1px solid rgba(255,255,255,.2);
+  background:#0f0b22; color:#fff; border-radius:12px; outline:none;
+}
+td>*:focus{ box-shadow:0 0 0 4px var(--ring); border-color:transparent; }
+.btn{ margin-top:12px; }
+.helptext{ color:#d8d3f0; font-size:1.5rem; }

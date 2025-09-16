@@ -1,5 +1,9 @@
-.card-container { padding: 0 30px; display: flex; justify-content: center; flex-wrap: wrap; }
-.card { width: 275px; margin: 10px; border: var(--borders); box-shadow: var(--card-box-shadow); }
-.card-content { padding: 10px; }
-.card h2 { margin: 10px 0; font-size: var(--font-xl); }
-.card p { margin: 5px 0; font-size: var(--font-reg); }
+/* Teams listing */
+.page-header h1{ color:#fff; }
+.card .card-title{ color: #9086ab }
+.card small, .card p { color:#9086ab; }
+.card:hover{ box-shadow:0 16px 34px rgba(16,12,40,.25); }
+.card-content h3, 
+.card-content p {
+  font-size: 2rem; /* ~18px */
+}

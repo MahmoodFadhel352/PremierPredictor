@@ -1,10 +1,28 @@
-.prediction-list { padding: 20px; }
-.prediction-list li { margin: 8px 0; font-size: var(--font-reg); }
+/* Card grid predictions (like Teams) */
+.page-header h1{ color:#fff; }
 
-.prediction-detail {
-  border: var(--borders);
-  padding: 15px;
-  border-radius: var(--card-border-radius);
-  box-shadow: var(--card-box-shadow);
+.prediction-card .card-content{ padding:20px; }
+.prediction-card a{ text-decoration:none; color:#fff; display:block; }
+
+.match-line{
+  font-size:2.2rem; font-weight:900; letter-spacing:.2px; margin-bottom:10px;
 }
-.prediction-detail h2 { font-size: var(--font-xl); }
+.match-line .vs{ opacity:.85; margin:0 8px; font-weight:800; }
+
+.meta-row{
+  display:flex; flex-wrap:wrap; gap:10px; margin:8px 0 6px;
+}
+.pill{
+  display:inline-flex; align-items:center; gap:8px; padding:8px 12px;
+  background:#0f0b22; border:1px solid rgba(255,255,255,.12); border-radius:999px;
+  font-size:1.5rem; font-weight:800; color:#fff;
+}
+
+.byline{ color:#d6d0f3; font-size:1.5rem; margin-top:8px; }
+.prediction-card .match-line     { font-size: 1.8rem; }
+.prediction-card .match-line .vs { font-size: 1.8rem; }
+.prediction-card .pill           { font-size: 1.1rem; padding: 10px 14px; }
+.prediction-card .byline         { font-size: 1.05rem; }
+.prediction-detail h2     { font-size: 2.2rem; }
+.prediction-detail p      { font-size: 1.05rem; }
+.prediction-detail .byline{ font-size: 1.05rem; }

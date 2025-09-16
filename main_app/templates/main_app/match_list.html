@@ -4,20 +4,46 @@
 <link rel="stylesheet" href="{% static 'css/matches/match-index.css' %}">
 {% endblock %}
 {% block content %}
-<h1>Matches</h1>
-<a href="{% url 'match-create' %}">+ Add Match</a>
-<ul>
+
+<section class="page-header">
+  <h1>Matches</h1>
+  <a href="{% url 'match-create' %}" class="btn submit">+ Add Match</a>
+</section>
+
+<section class="card-container">
   {% for m in object_list %}
-    <li>
+    <div class="card match-card">
       <a href="{% url 'match-detail' m.pk %}">
-        {{ m.home_team }} vs {{ m.away_team }} ({{ m.kickoff_at|date:"Y-m-d H:i" }})
+        <div class="card-content">
+          <div class="match-line">
+            <span class="teams">{{ m.home_team.name }}</span>
+            <span class="vs">vs</span>
+            <span class="teams">{{ m.away_team.name }}</span>
+          </div>
+
+          <div class="meta-row">
+            <span class="pill">
+              <img src="{% static 'images/teams/whistle.svg' %}" alt="">
+              {{ m.kickoff_at|date:"Y-m-d H:i" }}
+            </span>
+            {% if m.venue %}
+            <span class="pill">
+              <img src="{% static 'images/teams/stadium.svg' %}" alt="">
+              {{ m.venue }}
+            </span>
+            {% endif %}
+            <span class="pill">
+              <img src="{% static 'images/teams/scoreboard.svg' %}" alt="">
+              {{ m.status }}
+            </span>
+          </div>
+
+          <p class="byline">by {{ m.created_by.username|default:"Unknown" }}</p>
+        </div>
       </a>
-    </li>
-    <p class="byline">
-      by {{ m.created_by.username|default:"Unknown" }}
-    </p>
+    </div>
   {% empty %}
     <p>No matches yet.</p>
   {% endfor %}
-</ul>
+</section>
 {% endblock %}

@@ -4,15 +4,35 @@
 <link rel="stylesheet" href="{% static 'css/matches/match-detail.css' %}">
 {% endblock %}
 {% block content %}
-<h2>{{ object.home_team.name }} vs {{ object.away_team.name }}</h2>
-<p>Date: {{ object.kickoff_at|date:"Y-m-d H:i" }}</p>
-<p>Status: {{ object.status }}</p>
+
+<div class="match-header">
+  <h2>{{ object.home_team.name }} vs {{ object.away_team.name }}</h2>
+  <div class="match-meta">
+    <span class="meta-chip">
+      <img src="{% static 'images/teams/whistle.svg' %}" alt="">
+      {{ object.kickoff_at|date:"Y-m-d H:i" }}
+    </span>
+    {% if object.venue %}
+    <span class="meta-chip">
+      <img src="{% static 'images/teams/stadium.svg' %}" alt="">
+      {{ object.venue }}
+    </span>
+    {% endif %}
+    <span class="meta-chip">
+      <img src="{% static 'images/teams/scoreboard.svg' %}" alt="">
+      {{ object.status }}
+    </span>
+  </div>
+</div>
+
 {% if object.home_score != None and object.away_score != None %}
   <p>Score: {{ object.home_score }} - {{ object.away_score }}</p>
 {% endif %}
+
 <p class="byline">
   by {{ object.created_by.username|default:"Unknown" }}
 </p>
+
 {% if object.created_by_id == user.id or user.is_staff %}
   <p>
     <a href="{% url 'match-update' object.pk %}" class="btn warn">Edit</a>
@@ -33,7 +53,6 @@
         <th>P(Home)</th>
         <th>P(Draw)</th>
         <th>P(Away)</th>
-        <th>Points</th>
       </tr>
     </thead>
     <tbody>
@@ -44,7 +63,6 @@
           <td>{{ p.p_home|default:"—" }}</td>
           <td>{{ p.p_draw|default:"—" }}</td>
           <td>{{ p.p_away|default:"—" }}</td>
-          <td>{{ p.result_points|default:"—" }}</td>
         </tr>
       {% endfor %}
     </tbody>

@@ -4,26 +4,38 @@
 <link rel="stylesheet" href="{% static 'css/predictions/predictions.css' %}">
 {% endblock %}
 {% block content %}
+
 <section class="page-header">
   <h1>Predictions</h1>
   <a href="{% url 'prediction-create' %}" class="btn submit">+ New Prediction</a>
 </section>
-<ul class="prediction-list">
+
+<section class="card-container">
   {% for p in object_list %}
-    <li>
+    <div class="card prediction-card">
       <a href="{% url 'prediction-detail' p.pk %}">
-        {{ p.match.home_team.name }} vs {{ p.match.away_team.name }}
+        <div class="card-content">
+          <div class="match-line">
+            {{ p.match.home_team.name }} <span class="vs">vs</span> {{ p.match.away_team.name }}
+          </div>
+
+          <div class="meta-row">
+            <span class="pill">
+              Pick: <strong>{{ p.get_pick_display }}</strong>
+            </span>
+            {% if p.p_home or p.p_draw or p.p_away %}
+              <span class="pill">H: {{ p.p_home|default:"—" }}</span>
+              <span class="pill">D: {{ p.p_draw|default:"—" }}</span>
+              <span class="pill">A: {{ p.p_away|default:"—" }}</span>
+            {% endif %}
+          </div>
+
+          <p class="byline">by {{ p.user.username|default:"Unknown" }}</p>
+        </div>
       </a>
-      — Pick: {{ p.get_pick_display }}
-      {% if p.p_home or p.p_draw or p.p_away %}
-        (H/D/A: {{ p.p_home|default:"—" }}/{{ p.p_draw|default:"—" }}/{{ p.p_away|default:"—" }})
-      {% endif %}
-      <span class="byline">
-          by {{ p.user.username|default:"Unknown" }}
-      </span>
-    </li>
+    </div>
   {% empty %}
     <p>No predictions yet.</p>
   {% endfor %}
-</ul>
+</section>
 {% endblock %}
