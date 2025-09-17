@@ -23,7 +23,7 @@ The app was built to combine my passion for the Premier League with my experienc
 ![TeamIndexPage](image3.png)
 
 
-📋 **Planning Materials:**  
+## 📋 Planning Materials
 ### Wirefarme
 [WireFrame](https://excalidraw.com/#json=feE8KOHw6J5PpKaYZTpw3,bOAcUPDCYGuciMVVs24bkQ)
 ### Trelloboard
@@ -45,6 +45,9 @@ python manage.py runserver
 ```
 Then open http://127.0.0.1:8000 in your browser.
 
+---
+
+**Deployed App:** [PremierPredictor](https://premierpredictor-production.up.railway.app/)
 ## 🛠️ Technologies Used
 
 - Backend: Python, Django, SQLite (dev)
