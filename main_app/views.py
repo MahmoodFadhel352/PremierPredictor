@@ -8,6 +8,9 @@ from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm
 from .forms import MatchForm, PredictionForm, TeamForm
 from django.db import IntegrityError
+from django.db.models import Q
+from django.db.models.deletion import ProtectedError
+from django.contrib import messages
 
 from .models import Team, Match, Prediction
 # Create your views here.
@@ -66,11 +69,34 @@ class TeamUpdate(LoginRequiredMixin, UpdateView):
 
 class TeamDelete(LoginRequiredMixin, DeleteView):
     model = Team
-    success_url = '/teams/'
     template_name = "main_app/team_confirm_delete.html"
+    success_url = "/teams/"
+
     def get_queryset(self):
+        # only allow deleting teams you created
         return Team.objects.filter(created_by=self.request.user)
 
+    def post(self, request, *args, **kwargs):
+        """
+        Handle the POST explicitly and catch ProtectedError raised by model.delete().
+        This is more robust than relying on DeleteView.delete() in some setups.
+        """
+        self.object = self.get_object()
+        try:
+            self.object.delete()
+        except ProtectedError:
+            blocking_matches = (
+                Match.objects
+                .filter(Q(home_team=self.object) | Q(away_team=self.object))
+                .select_related("home_team", "away_team")
+            )
+            # Render a friendly page explaining what blocks the delete
+            return render(
+                request,
+                "main_app/team_cannot_delete.html",
+                {"team": self.object, "blocking_matches": blocking_matches},
+            )
+        return redirect(self.get_success_url())
 
 # Matches
 class MatchList(LoginRequiredMixin, ListView):

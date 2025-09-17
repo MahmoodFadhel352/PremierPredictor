@@ -1,0 +1,54 @@
+.delete-warning {
+  background: #1e1033; /* deep purple to match PL theme */
+  border: 2px solid #a855f7; /* purple accent */
+  padding: 2rem;
+  border-radius: 1rem;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+  margin-top: 2rem;
+}
+
+.delete-warning h1 {
+  font-size: 2rem;
+  color: #fff;
+  margin-bottom: 1rem;
+}
+
+.delete-warning .message {
+  font-size: 1.2rem;
+  color: #d1d5db; /* light gray */
+  margin-bottom: 1.5rem;
+}
+
+.block-list {
+  margin-bottom: 2rem;
+  padding-left: 1.5rem;
+}
+
+.block-list li {
+  margin: 0.5rem 0;
+  font-size: 1.1rem;
+  color: #e0e0e0;
+}
+
+.block-list a {
+  color: #60a5fa; /* bright blue link */
+  text-decoration: none;
+}
+
+.block-list a:hover {
+  text-decoration: underline;
+}
+
+.status {
+  font-weight: bold;
+  color: #facc15; /* gold for emphasis */
+}
+
+.venue {
+  color: #a5b4fc; /* light purple */
+}
+
+.actions {
+  display: flex;
+  gap: 1rem;
+}
